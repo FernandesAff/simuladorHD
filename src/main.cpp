@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(){
-    track_array hd[10];
+    track_array hd[10];  //nao sao 10 trilhas por superficie? eu entendi que track_array fosse a struct de um cilindro
     fatent *fat2 = (fatent*) malloc(sizeof(fatent)*3000);
     list <fatlist> fat;
     int option;

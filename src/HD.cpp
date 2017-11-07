@@ -39,7 +39,7 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
         arq = (char*) malloc(sizeof(char)*(tam));
 
         for(i=0; i<tam; i++)  {
-            arq[i] = fgetc (fp);
+            arq[i] = fgetc (fp); //pegando os char do arquivo e pondo no vetor de char "arq"?
         }
     }
 
@@ -50,7 +50,8 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
     n_sectors = tam/512;
     if(tam%512!=0)n_sectors++;
 
-    int iter = 0, id_cluster[n_clusters];
+    int iter = 0, id_cluster[n_clusters];  //esse nome "iter" n fica muito claro. isso eh o numero dos setores livres ne?
+    //id_cluster eh um vetor que contem quais setores livres onde vai guardar o arquivo?
     i=0;
 
     while(i<n_clusters){
