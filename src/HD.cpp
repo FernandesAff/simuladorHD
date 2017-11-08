@@ -12,6 +12,9 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
     /*
         nome_arq = nome do arquivo
         dnome_arq = dietório+nome do arquivo
+        
+        FALTA MENSAGEM DE ERRO CASO NAO TENHA ARQUIVO COM AQUELE NOME
+        ALGO DE ERRADO NA TABELA FAT???
     */
 
     char nome_arq[100], dnome_arq[110], *arq;
@@ -119,22 +122,58 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
     getchar(); getchar();
 }
 
+void apagar(fatent *fat2, list<fatlist> fat) {
+    char nome[100];
+    int loc;
+    list <fatlist> ::iterator it;
+    
+    cout << "Digite o nome do arquivo a ser excluido (com .txt):"; //pode mudar isso pra concatenar o ".txt" depois
+    cin >> nome;
+    
+    it = fat.begin();
+    while ((it != fat.end()) && (it->file_name != nome)) {
+        it++;
+    }
+    
+    if (it == fat.end()) {
+        cout << "Nao existe arquivo com esse nome, pressione ENTER para retornar ao menu inicial" << endl;
+        getchar(); getchar();
+    }
+    else {
+        loc = it->first_sector;
+        while (loc != -1) {
+            fat2[loc].used = 0;
+            loc = fat2[loc].next;
+        }
+        fat.erase (it);
+        cout << "Arquivo apagado, pressione ENTER para retornar ao menu inicial" << endl;
+        getchar(); getchar();
+    }
+}
+
 void showFAT(fatent *fat2, list<fatlist> fat) {
     int loc, tamanho=0;
     list <fatlist> ::iterator it;
     
-    it = fat.begin;
+    it = fat.begin();
     // printar cabecalho da tabela (NOME, TAMANHO, LOCALIZACAO)
-    while(it != fat.end) {
+    while (it != fat.end()) {
         // printar it.file_name
-        loc = it.first_sector;
+        cout << "Nome: " << it->file_name << endl;
+        loc = it->first_sector;
+        cout << "Setores: " << loc;
         while (loc != -1) {
             // guarda essa localizacao (loc)
+            cout << loc << " ";
             tamanho++;
             loc = fat2[loc].next;
         }
+        cout << endl;
+        cout << "Tamanho: " << (tamanho*512) << " Bytes" << endl;
         // printar "(tamanho*512) Bytes"  --Tem como saber o tamanho antes? Pq ai pode imprimir as localizacoes no loop
         // printar localizacoes (vetor?)
         it++;
     }
+    cout << "\nPressione ENTER para retornar ao menu inicial" << endl;
+    getchar(); getchar();
 }
