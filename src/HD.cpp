@@ -39,7 +39,7 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
         tam = ftell (fp);
         fseek (fp, 0, SEEK_SET);
 
-        arq = (char*) malloc(sizeof(char)*(tam));
+        arq = (char*) malloc(sizeof(char)*(tam+1));
 
         for(i=0; i<tam; i++)  {
             arq[i] = fgetc (fp); //pegando os char do arquivo e pondo no vetor de char "arq"?
@@ -47,6 +47,9 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
     }
 
     fclose(fp);
+
+    arq[tam] = '\0';
+    tam ++;
 
     n_clusters = tam/2048;
     if(tam%2048!=0)n_clusters++;
@@ -152,8 +155,8 @@ void apagar(fatent *fat2, list<fatlist> *fat) {
     }
 }
 
-void showFAT(fatent *fat2, list<fatlist> fat) {
-    int loc, tamanho=0;
+void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
+    int loc, loc_ant, ls_tam=0, tamanho=0;
     list <fatlist> ::iterator it;
 
     it = fat.begin();
@@ -167,10 +170,17 @@ void showFAT(fatent *fat2, list<fatlist> fat) {
             // guarda essa localizacao (loc)
             cout << loc << " ";
             tamanho++;
+            loc_ant = loc;
             loc = fat2[loc].next;
         }
+        int i=0;
+        while (hd[loc_ant/300].track[(loc_ant%300)/60].sector[loc_ant%60].bytes_s[i]!= '\0') {
+            ls_tam ++;
+            i++;
+        }
+
         cout << endl;
-        cout << "Tamanho: " << (tamanho*512) << " Bytes" << endl;
+        cout << "Tamanho: " << ((tamanho-1)*512+ls_tam) << " Bytes" << endl;
         // printar "(tamanho*512) Bytes"  --Tem como saber o tamanho antes? Pq ai pode imprimir as localizacoes no loop
         // printar localizacoes (vetor?)
         it++;
