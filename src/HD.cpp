@@ -8,11 +8,11 @@ void start_FAT(fatent *fat2){
     }
 }
 
-void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
+void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
     /*
         nome_arq = nome do arquivo
         dnome_arq = dietório+nome do arquivo
-        
+
         FALTA MENSAGEM DE ERRO CASO NAO TENHA ARQUIVO COM AQUELE NOME
         ALGO DE ERRADO NA TABELA FAT???
     */
@@ -73,7 +73,7 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
     fatlist aux;
     strcpy (aux.file_name,nome_arq);
     aux.first_sector = id_cluster[0];
-    fat.push_back(aux); //inclui elemento no fim da lista
+    fat->push_back(aux); //inclui elemento no fim da lista
 
     int lim=4;
 
@@ -122,20 +122,24 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
     getchar(); getchar();
 }
 
-void apagar(fatent *fat2, list<fatlist> fat) {
-    char nome[100];
+void apagar(fatent *fat2, list<fatlist> *fat) {
+    char nome[100], dnome[110];
     int loc;
     list <fatlist> ::iterator it;
-    
+
     cout << "Digite o nome do arquivo a ser excluido (com .txt):"; //pode mudar isso pra concatenar o ".txt" depois
     cin >> nome;
-    
-    it = fat.begin();
-    while ((it != fat.end()) && (it->file_name != nome)) {
+
+    strcpy(dnome,"./txt/");
+    strcat(dnome,nome);
+
+    it = fat->begin();
+
+    while ((it != fat->end()) && (strcmp(it->file_name, nome))) {
         it++;
     }
-    
-    if (it == fat.end()) {
+
+    if (it == fat->end()) {
         cout << "Nao existe arquivo com esse nome, pressione ENTER para retornar ao menu inicial" << endl;
         getchar(); getchar();
     }
@@ -145,7 +149,7 @@ void apagar(fatent *fat2, list<fatlist> fat) {
             fat2[loc].used = 0;
             loc = fat2[loc].next;
         }
-        fat.erase (it);
+        fat->erase (it);
         cout << "Arquivo apagado, pressione ENTER para retornar ao menu inicial" << endl;
         getchar(); getchar();
     }
@@ -154,7 +158,7 @@ void apagar(fatent *fat2, list<fatlist> fat) {
 void showFAT(fatent *fat2, list<fatlist> fat) {
     int loc, tamanho=0;
     list <fatlist> ::iterator it;
-    
+
     it = fat.begin();
     // printar cabecalho da tabela (NOME, TAMANHO, LOCALIZACAO)
     while (it != fat.end()) {

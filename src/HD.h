@@ -25,8 +25,8 @@ typedef struct fatent_s {
 } fatent;
 
 void start_FAT(fatent *);
-void escrever(fatent *, list<fatlist>, track_array *);
-void apagar(fatent *, list<fatlist>);
+void escrever(fatent *, list<fatlist> *, track_array *);
+void apagar(fatent *, list<fatlist> *);
 void showFAT(fatent *, list<fatlist>);
 
 #endif

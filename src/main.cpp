@@ -22,15 +22,16 @@ int main(){
         switch (option){
             case 1:
                 system("clear");
-                escrever(fat2,fat,hd);
+                escrever(fat2,&fat,hd);
                 system("clear");
+
                 cout << "1 - Escrever Arquivo" << endl << "2 - Ler Arquivo" << endl << "3 - Apagar Arquivo" << endl << "4 - Mostrar Tabela FAT" << endl << "5 - Sair" << endl;
                 break;
             case 2:
                 break;
             case 3:
                 system("clear");
-                apagar(fat2,fat);
+                apagar(fat2,&fat);
                 system("clear");
                 cout << "1 - Escrever Arquivo" << endl << "2 - Ler Arquivo" << endl << "3 - Apagar Arquivo" << endl << "4 - Mostrar Tabela FAT" << endl << "5 - Sair" << endl;
                 break;
