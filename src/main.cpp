@@ -30,7 +30,11 @@ int main(){
                 break;
             case 3:
                 break;
-            case 4:
+            case 4:     //NAO CHAMAR ATE ARRUMAR A FUNCAO
+                system("clear");
+                showFAT(fat2,fat);
+                system("clear");
+                cout << "1 - Escrever Arquivo" << endl << "2 - Ler Arquivo" << endl << "3 - Apagar Arquivo" << endl << "4 - Mostrar Tabela FAT" << endl << "5 - Sair" << endl;
                 break;
             case 5:
                 break;

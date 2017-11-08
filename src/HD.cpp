@@ -118,3 +118,23 @@ void escrever(fatent *fat2, list<fatlist> fat, track_array *hd){
 
     getchar(); getchar();
 }
+
+void showFAT(fatent *fat2, list<fatlist> fat) {
+    int loc, tamanho=0;
+    list <fatlist> ::iterator it;
+    
+    it = fat.begin;
+    // printar cabecalho da tabela (NOME, TAMANHO, LOCALIZACAO)
+    while(it != fat.end) {
+        // printar it.file_name
+        loc = it.first_sector;
+        while (loc != -1) {
+            // guarda essa localizacao (loc)
+            tamanho++;
+            loc = fat2[loc].next;
+        }
+        // printar "(tamanho*512) Bytes"  --Tem como saber o tamanho antes? Pq ai pode imprimir as localizacoes no loop
+        // printar localizacoes (vetor?)
+        it++;
+    }
+}
