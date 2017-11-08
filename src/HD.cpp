@@ -130,9 +130,6 @@ void apagar(fatent *fat2, list<fatlist> *fat) {
     cout << "Digite o nome do arquivo a ser excluido (com .txt):"; //pode mudar isso pra concatenar o ".txt" depois
     cin >> nome;
 
-    strcpy(dnome,"./txt/");
-    strcat(dnome,nome);
-
     it = fat->begin();
 
     while ((it != fat->end()) && (strcmp(it->file_name, nome))) {
