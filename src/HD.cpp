@@ -156,19 +156,22 @@ void apagar(fatent *fat2, list<fatlist> *fat) {
 }
 
 void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
+    /*
+     * Arrumar alinhamento???
+     * 
+     */
     int loc, loc_ant, ls_tam=0, tamanho=0;
     list <fatlist> ::iterator it;
+    list <int> locais;
+    list <int> ::iterator it_locais;
 
     it = fat.begin();
-    // printar cabecalho da tabela (NOME, TAMANHO, LOCALIZACAO)
+    cout << "NOME \t\tTAMANHO EM DISCO\tLOCALIZACAO" << endl;
     while (it != fat.end()) {
-        // printar it.file_name
-        cout << "Nome: " << it->file_name << endl;
+        cout << it->file_name;
         loc = it->first_sector;
-        cout << "Setores: " << loc;
         while (loc != -1) {
-            // guarda essa localizacao (loc)
-            cout << loc << " ";
+            locais.push_back(loc);
             tamanho++;
             loc_ant = loc;
             loc = fat2[loc].next;
@@ -178,11 +181,17 @@ void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
             ls_tam ++;
             i++;
         }
-
+        cout << "\t" << ((tamanho-1)*512+ls_tam) << " Bytes\t\t";
+        it_locais = locais.begin();
+        cout <<*it_locais;      //Primeiro print fora do loop para evitar problemas com a virgula
+        it_locais++;
+        while ( it_locais != locais.end()) {
+            cout << "," << *it_locais;
+            it_locais++;
+        }
+        locais.clear();
         cout << endl;
-        cout << "Tamanho: " << ((tamanho-1)*512+ls_tam) << " Bytes" << endl;
-        // printar "(tamanho*512) Bytes"  --Tem como saber o tamanho antes? Pq ai pode imprimir as localizacoes no loop
-        // printar localizacoes (vetor?)
+
         it++;
     }
     cout << "\nPressione ENTER para retornar ao menu inicial" << endl;
