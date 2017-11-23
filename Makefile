@@ -1,9 +1,9 @@
 CXX=g++
-TXTDIR=./txt/
 OBJDIR=./obj/
 SRCDIR=./src/
+OUTDIR=./out/
 
-all:my_drive clean
+all: dir my_drive
 
 my_drive:$(OBJDIR)main.o $(OBJDIR)HD.o
 	$(CXX) $^ -o $@
@@ -14,5 +14,9 @@ $(OBJDIR)main.o:$(SRCDIR)main.cpp $(SRCDIR)HD.cpp $(SRCDIR)HD.h
 $(OBJDIR)HD.o:$(SRCDIR)HD.cpp $(SRCDIR)HD.h
 	$(CXX) $< -c -o $(OBJDIR)HD.o
 
+dir:
+	if test -d obj; then echo obj exists; else mkdir obj;fi
+	if test -d out; then echo out exists; else mkdir out;fi
+
 clean:
-	rm $(OBJDIR)*.o
+	rm $(OBJDIR)*.o $(OUTDIR)*.txt
