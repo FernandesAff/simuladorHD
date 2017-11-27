@@ -27,7 +27,7 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
     inc_hd(*fat, fat2, tam, hd, arq);
 
     free(arq);
-    cout << "Arquivo gravado, pressione ENTER para retornar ao menu inicial" << endl;
+    cout << "Pressione ENTER para retornar ao menu inicial" << endl;
     getchar();
     getchar();
 }
@@ -35,8 +35,8 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
 void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     char nome_arq[100], dnome_arq[110];
     FILE *fp;
-    int sector, num_bytes=0;
-	float tempo;
+    int sector, aux_trilha;
+	float tempo = SEEK_MED;
 
     cout << "Digite o nome do arquivo (com .txt):";
     cin >> nome_arq;
@@ -63,19 +63,32 @@ void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     fp = fopen(dnome_arq, "w");
 
     sector = it->first_sector;
+
+    aux_trilha = sector/(SETORES*TRILHAS_C);
     while(sector !=-1){
         int byte=0;
         while((hd[sector/(SETORES*TRILHAS_C)].track[(sector%(SETORES*TRILHAS_C))/SETORES].sector[sector%SETORES].bytes_s[byte] != '\0') && (byte<SETORES_TAM)){
             fputc(hd[sector/(SETORES*TRILHAS_C)].track[(sector%(SETORES*TRILHAS_C))/SETORES].sector[sector%SETORES].bytes_s[byte], fp);
             byte++;
         }
-		num_bytes+=byte;
+		int aux_temp = sector;
         sector = fat2[sector].next;
+
+        if(sector != -1){
+            if(sector != aux_temp+1){
+                tempo += LAT_MED;
+            }
+            if(sector/(SETORES*TRILHAS_C) != aux_trilha){
+                tempo += SEEK_MED;
+                aux_trilha = sector/(SETORES*TRILHAS_C);
+            }
+        }
+        tempo += 0.2;
     }
     fclose(fp);
-	tempo=(SEEK_MED+LAT_MED+TRANSF_T)*(num_bytes/SETORES_TAM);
 
-    cout << "Leitura realizada em " << tempo << " ms, pressione ENTER para retornar ao menu inicial" << endl;
+    cout << "Leitura realizada em " << tempo << " ms"<< endl;
+    cout << "Pressione ENTER para retornar ao menu inicial" << endl;
     getchar();
     getchar();
 }
@@ -261,11 +274,14 @@ void inc_fat(list<fatlist> *fat, fatent *fat2, char* nome_arq, int tam){
 }
 
 void inc_hd(list<fatlist> fat, fatent *fat2, int tam, track_array *hd, char *arq){
-    int n_sectors, sector;
+    int n_sectors, sector, aux_trilha;
+    float tempo=SEEK_MED;
 
     n_sectors = tam/SETORES_TAM;
     if(tam%SETORES_TAM!=0)n_sectors++;
     sector=fat.back().first_sector;
+
+    aux_trilha = sector/(SETORES*TRILHAS_C);
 
     for(int j=0; j<n_sectors; j++){
         if(fat2[sector].eof==0){
@@ -280,5 +296,17 @@ void inc_hd(list<fatlist> fat, fatent *fat2, int tam, track_array *hd, char *arq
         }
         int aux_temp = sector;
         sector = fat2[aux_temp].next;
+
+        if(j < n_sectors-1){
+            if(sector != aux_temp+1){
+                tempo += LAT_MED;
+            }
+            if(sector/(SETORES*TRILHAS_C) != aux_trilha){
+                tempo += SEEK_MED;
+                aux_trilha = sector/(SETORES*TRILHAS_C);
+            }
+        }
+        tempo += 0.2;
     }
+    cout << "Escrita realizada em " << tempo << " ms."<< endl;
 }
