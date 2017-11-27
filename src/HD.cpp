@@ -35,7 +35,8 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
 void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     char nome_arq[100], dnome_arq[110];
     FILE *fp;
-    int sector, num_bytes=0, tempo;
+    int sector, num_bytes=0;
+	float tempo;
 
     cout << "Digite o nome do arquivo (com .txt):";
     cin >> nome_arq;
@@ -72,7 +73,7 @@ void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
         sector = fat2[sector].next;
     }
     fclose(fp);
-	tempo=(SEEK_MED+LAT_MED+TRANSF_T)*num_bytes;
+	tempo=(SEEK_MED+LAT_MED+TRANSF_T)*(num_bytes/SETORES_TAM);
 
     cout << "Leitura realizada em " << tempo << " ms, pressione ENTER para retornar ao menu inicial" << endl;
     getchar();
