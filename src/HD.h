@@ -2,6 +2,7 @@
 #define H_HD
 
 #include <iostream>
+#include <iomanip> //adicionado isso para fazer a exibicao da tabela FAT
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -35,8 +35,7 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
 void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     char nome_arq[100], dnome_arq[110];
     FILE *fp;
-    int sector;
-	float num_bytes=0, num_trilhas, tempo;
+    int sector, num_bytes=0, tempo;
 
     cout << "Digite o nome do arquivo (com .txt):";
     cin >> nome_arq;
@@ -73,8 +72,7 @@ void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
         sector = fat2[sector].next;
     }
     fclose(fp);
-	num_trilhas=(num_bytes/SETORES_TAM)/SETORES;
-	tempo=(SEEK_MED+LAT_MED+TRANSF_T)*num_trilhas;
+	tempo=(SEEK_MED+LAT_MED+TRANSF_T)*num_bytes;
 
     cout << "Leitura realizada em " << tempo << " ms, pressione ENTER para retornar ao menu inicial" << endl;
     getchar();
@@ -118,10 +116,10 @@ void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
     list <int> ::iterator it_locais;
 
     it = fat.begin();
-    cout << "NOME \t\tTAMANHO EM DISCO\tLOCALIZACAO" << endl;
+    cout << setw(20) << "NOME" << setw(20) << "TAMANHO EM DISCO" << "\t\t\tLOCALIZACAO" << endl;
     while (it != fat.end()) {
         int tamanho=0, ls_tam=0;
-        cout << it->file_name;
+        cout << setw(20) << it->file_name;
         loc = it->first_sector;
         while (loc != -1) {
             locais.push_back(loc);
@@ -134,7 +132,7 @@ void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
             ls_tam ++;
             i++;
         }
-        cout << "\t" << ((tamanho-1)*SETORES_TAM+ls_tam) << " Bytes\t\t";
+        cout << setw(14) << ((tamanho-1)*SETORES_TAM+ls_tam) << " Bytes\t\t\t";
         it_locais = locais.begin();
         cout <<*it_locais;      //Primeiro print fora do loop para evitar problemas com a virgula
         it_locais++;
