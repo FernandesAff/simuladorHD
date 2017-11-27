@@ -45,7 +45,7 @@ void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     while (1){
         if(it == fat.end()){
             system(CLEAR);
-            cout << "Arquivo não existente!" << endl << "Aperte ENTER para voltar ao menu inicial.";
+            cout << "Arquivo nao existente!" << endl << "Aperte ENTER para voltar ao menu inicial.";
             getchar();
             getchar();
             return;
@@ -165,7 +165,7 @@ int ler_arq(char *nome_arq, list<fatlist> fat, char *&arq){
             if(strcmp(nome_arq,it->file_name)==0){
                 nome_diff=0;
                 system(CLEAR);
-                cout << "Arquivo já existente!" << endl;
+                cout << "Arquivo ja existente!" << endl;
             }
             it++;
         }
@@ -217,7 +217,7 @@ void inc_fat(list<fatlist> *fat, fatent *fat2, char* nome_arq, int tam){
 
     while(i<n_clusters){
         if(iter == TRILHAS_C*SETORES*TRILHAS_S){
-            cout << "Arquivo não cabe no HD" << endl;
+            cout << "Arquivo nao cabe no HD" << endl;
             getchar(); getchar();
             return;
         }
