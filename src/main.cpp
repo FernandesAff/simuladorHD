@@ -7,6 +7,11 @@
 using namespace std;
 
 int main(){
+    /*
+        hd -> estrutura que simula o hd
+        fat2 -> tabela fat que mapeia os setores
+        fat -> lista da tabela fat identifica os arquivos armazenados
+    */
     track_array hd[TRILHAS_S];
     fatent *fat2 = (fatent*) malloc(sizeof(fatent)*TRILHAS_C*SETORES*TRILHAS_S);
     list <fatlist> fat;
@@ -16,6 +21,8 @@ int main(){
 
     system(CLEAR);
     cout << "1 - Escrever Arquivo" << endl << "2 - Ler Arquivo" << endl << "3 - Apagar Arquivo" << endl << "4 - Mostrar Tabela FAT" << endl << "5 - Sair" << endl;
+
+    //Loop que itera entre as opções de execução
 
     do{
         cin >> option;

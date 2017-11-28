@@ -20,16 +20,16 @@ using namespace std;
 	#endif
 #endif
 
-#define TRILHAS_C 5
-#define SETORES 60
-#define TRILHAS_S 10
-#define SETORES_TAM 512
-#define CLUSTER 4
-#define SEEK_MED 4
-#define LAT_MED 6
-#define TRANSF_T 12
-#define DIR_IN "./in/"
-#define DIR_OUT "./out/"
+#define TRILHAS_C 5 		//Trilhas por cilindro
+#define SETORES 60			//Setores por trilha
+#define TRILHAS_S 10		//Trilhas por superficie
+#define SETORES_TAM 512		//Tamanho dos setores
+#define CLUSTER 4			//Setores por cluster
+#define SEEK_MED 4			//Tempo de seek medio
+#define LAT_MED 6			//Tempo de latencia medio
+#define TRANSF_T 12			//Tempo de transferencia
+#define DIR_IN "./in/"		//Diretorio de entrada
+#define DIR_OUT "./out/"	//Diretorio de saida
 
 typedef struct block { unsigned char bytes_s[512]; } block;        //setor
 typedef struct sector_array { block sector[60]; } sector_array;    //trilha

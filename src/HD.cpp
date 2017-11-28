@@ -1,5 +1,6 @@
 #include "HD.h"
 
+//Função que inicializa a tabela fat
 void start_FAT(fatent *fat2){
     for(int i=0; i<TRILHAS_C*SETORES*TRILHAS_S; i++){
         fat2[i].used = 0;
@@ -8,6 +9,7 @@ void start_FAT(fatent *fat2){
     }
 }
 
+//Função que escreve os dados de um arquivo no hd
 void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
     /*
         nome_arq = nome do arquivo
@@ -32,6 +34,7 @@ void escrever(fatent *fat2, list<fatlist> *fat, track_array *hd){
     getchar();
 }
 
+//função que lê um arquivo do hd simulado e escreve no disco real
 void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     char nome_arq[100], dnome_arq[110];
     FILE *fp;
@@ -93,6 +96,7 @@ void gravar_HD(fatent *fat2, list<fatlist> fat, track_array *hd){
     getchar();
 }
 
+//Função que apaga um arquivo
 void apagar(fatent *fat2, list<fatlist> *fat) {
     char nome[100], dnome[110];
     int loc;
@@ -123,6 +127,7 @@ void apagar(fatent *fat2, list<fatlist> *fat) {
     }
 }
 
+// Função que imprime a tabela fat na tela
 void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
     int loc, loc_ant;
     list <fatlist> ::iterator it;
@@ -163,6 +168,7 @@ void showFAT(fatent *fat2, list<fatlist> fat,track_array *hd) {
     getchar(); getchar();
 }
 
+//Função que lê um arquivo do hd real
 int ler_arq(char *nome_arq, list<fatlist> fat, char *&arq){
     char dnome_arq[110];
     FILE *fp;
@@ -213,6 +219,7 @@ int ler_arq(char *nome_arq, list<fatlist> fat, char *&arq){
     return tam;
 }
 
+//Função que inclui um arquivo na fat
 void inc_fat(list<fatlist> *fat, fatent *fat2, char* nome_arq, int tam){
     /*
         iter = variavel usada para iterar entre os clusters livres.
@@ -273,6 +280,7 @@ void inc_fat(list<fatlist> *fat, fatent *fat2, char* nome_arq, int tam){
     }
 }
 
+//Função que inclui um arquivo no hd simulado
 void inc_hd(list<fatlist> fat, fatent *fat2, int tam, track_array *hd, char *arq){
     int n_sectors, sector, aux_trilha;
     float tempo=SEEK_MED;
